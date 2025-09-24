@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>LZRAY·主站 | Hub</title>
+  <meta name="description" content="lzray.com 主站导航：Bulls & Cows、Translate100、Chat AI、WordMorph、Online24 等分站入口。" />
+  <style>
+    :root{
+      --bg: #0b1020;        /* 深色背景 */
+      --card: #121a32;
+      --text: #e8ecf3;
+      --muted: #a7b0c3;
+      --accent: #6ea8fe;
+      --accent-2: #7bf1a8;
+      --ring: rgba(110,168,254,.35);
+    }
+    @media (prefers-color-scheme: light){
+      :root{
+        --bg:#f6f8fc; --card:#ffffff; --text:#0b1020; --muted:#5b6475; --accent:#2b6fff; --accent-2:#0fa; --ring:rgba(43,111,255,.2);
+      }
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; font:16px/1.6 system-ui, -apple-system, Segoe UI, Roboto, "PingFang SC", "Hiragino Sans GB", "Noto Sans CJK SC", Helvetica, Arial, sans-serif;
+      color:var(--text); background:
+        radial-gradient(60vmax 60vmax at 10% -10%, rgba(123,241,168,.15), transparent 60%),
+        radial-gradient(80vmax 60vmax at 110% 10%, rgba(110,168,254,.15), transparent 60%),
+        var(--bg);
+      display:flex; align-items:center; justify-content:center; padding:24px;
+    }
+    .container{width:min(1100px,100%);}
+    header{ display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:20px; }
+    .brand{ display:flex; align-items:center; gap:12px; }
+    .logo{ width:44px; height:44px; border-radius:12px; background:
+      linear-gradient(135deg, var(--accent), var(--accent-2)); box-shadow:0 10px 30px var(--ring);
+      display:grid; place-items:center; color:#001; font-weight:900; letter-spacing:.5px; }
+    h1{ margin:0; font-size:20px; }
+    .desc{ color:var(--muted); font-size:14px; margin:4px 0 0; }
+    .grid{
+      display:grid; grid-template-columns:repeat(1, minmax(0,1fr)); gap:18px; margin-top:16px;
+    }
+    @media (min-width:640px){ .grid{ grid-template-columns:repeat(2, minmax(0,1fr)); } }
+    @media (min-width:980px){ .grid{ grid-template-columns:repeat(3, minmax(0,1fr)); } }
+    .card{
+      background:var(--card); border-radius:20px; padding:18px; position:relative; overflow:hidden; border:1px solid rgba(255,255,255,.06);
+      transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+    }
+    .card:hover{ transform: translateY(-2px); box-shadow: 0 10px 30px var(--ring); border-color: rgba(110,168,254,.35); }
+    .tag{ font-size:12px; color:var(--accent); background:rgba(110,168,254,.15); padding:3px 8px; border-radius:999px; display:inline-block; }
+    .title{ margin:10px 0 4px; font-size:18px; font-weight:700; letter-spacing:.2px; }
+    .text{ margin:0; color:var(--muted); font-size:14px; }
+    .go{
+      margin-top:14px; display:inline-flex; align-items:center; gap:8px; padding:10px 12px; border-radius:12px; text-decoration:none; color:var(--text);
+      border:1px solid rgba(255,255,255,.1); background:linear-gradient(180deg, transparent, rgba(255,255,255,.03));
+    }
+    .go:focus, .go:hover{ outline:none; border-color: var(--accent); box-shadow:0 0 0 8px var(--ring) inset; }
+    footer{ margin-top:20px; color:var(--muted); font-size:12px; text-align:center; }
+    .muted-link{ color:var(--muted); text-decoration:none; }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <header>
+      <div class="brand">
+        <div class="logo">LZ</div>
+        <div>
+          <h1>LZRAY 主站 · Hub</h1>
+          <p class="desc">集中入口 · 轻量快速 · 支持深浅色 · 最后更新：<span id="ts"></span></p>
+        </div>
+      </div>
+      <nav>
+        <a class="muted-link" href="https://www.lzray.com/">lzray.com</a>
+      </nav>
+    </header>
+
+    <section class="grid">
+      <article class="card">
+        <span class="tag">🧠 AI / 工具</span>
+        <h2 class="title">Translate100</h2>
+        <p class="text">轻量英文→中文翻译与对照阅读实验站。</p>
+        <a class="go" href="https://translate100.lzray.com" rel="noopener">进入 translate100.lzray.com →</a>
+      </article>
+
+      <article class="card">
+        <span class="tag">🤖 对话</span>
+        <h2 class="title">Chat AI</h2>
+        <p class="text">自建 OpenRouter / Chat 接入的演示与实验。</p>
+        <a class="go" href="https://chatai.lzray.com" rel="noopener">进入 chatai.lzray.com →</a>
+      </article>
+
+      <article class="card">
+        <span class="tag">🔤 文字游戏</span>
+        <h2 class="title">WordMorph</h2>
+        <p class="text">英文词阶变形小游戏（一步一词）。</p>
+        <a class="go" href="https://wordmorph.lzray.com" rel="noopener">进入 wordmorph.lzray.com →</a>
+      </article>
+
+      <article class="card">
+        <span class="tag">🐂🎯 数独类</span>
+        <h2 class="title">Bulls & Cows</h2>
+        <p class="text">猜数字/评估器/策略可视化等相关工具。</p>
+        <a class="go" href="https://bullsc.lzray.com" rel="noopener">进入 bullsc.lzray.com →</a>
+      </article>
+
+      <article class="card">
+        <span class="tag">🃏 算法游戏</span>
+        <h2 class="title">Online 24</h2>
+        <p class="text">在线 24 点对战/题库/难度分级实验。</p>
+        <a class="go" href="https://online24.lzray.com" rel="noopener">进入 online24.lzray.com →</a>
+      </article>
+
+      <article class="card">
+        <span class="tag">📬 其他</span>
+        <h2 class="title">更多</h2>
+        <p class="text">将来这里还可以挂友链、项目文档、RSS等。</p>
+        <a class="go" href="#" onclick="alert('敬请期待');return false;">规划中…</a>
+      </article>
+    </section>
+
+    <footer>
+      <div>© <span id="y"></span> LZRAY · <a class="muted-link" href="https://github.com/">GitHub</a> · <a class="muted-link" href="https://vercel.com/">Vercel</a></div>
+    </footer>
+  </main>
+
+  <script>
+    const d=new Date();
+    document.getElementById('ts').textContent = d.toLocaleDateString('zh-CN', {year:'numeric',month:'2-digit',day:'2-digit'});
+    document.getElementById('y').textContent = d.getFullYear();
+  </script>
+</body>
+</html>
