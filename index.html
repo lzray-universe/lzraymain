@@ -42,6 +42,39 @@
       overflow-x:hidden;
       scroll-behavior:smooth;
     }
+    main.snap-container{
+      height:100vh;
+      height:100svh;
+      overflow-y:auto;
+      scroll-snap-type:y mandatory;
+      scroll-padding-top:0;
+      scroll-behavior:smooth;
+    }
+    .panel{
+      position:relative;
+      min-height:100vh;
+      min-height:100svh;
+      padding:clamp(64px,8vw,120px) clamp(20px,8vw,80px);
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      gap:clamp(18px,4vw,28px);
+      scroll-snap-align:start;
+      scroll-snap-stop:always;
+    }
+    .panel-content{
+      width:min(1100px,100%);
+      margin:0 auto;
+    }
+    body.io-ready .panel:not(.hero){
+      opacity:0;
+      transform:translateY(5vh);
+      transition:opacity .8s ease, transform .8s ease;
+    }
+    body.io-ready .panel.in-view{
+      opacity:1;
+      transform:translateY(0);
+    }
     body::before,
     body::after{
       content:"";
@@ -189,29 +222,47 @@
     }
     .scroll-indicator{
       position:absolute;
-      bottom:40px;
-      left:50%;
-      transform:translateX(-50%);
-      font-size:13px;
-      letter-spacing:3px;
-      text-transform:uppercase;
-      color:rgba(255,255,255,.65);
+      right:clamp(20px,6vw,40px);
+      bottom:36px;
       display:flex;
       flex-direction:column;
       align-items:center;
-      gap:10px;
-      opacity:.8;
+      gap:8px;
+      color:rgba(255,255,255,.7);
+      text-align:center;
     }
-    .scroll-indicator svg{
-      animation:float 2.8s ease-in-out infinite;
+    .scroll-indicator span{
+      font-size:12px;
+      letter-spacing:2px;
+      text-transform:uppercase;
     }
-    @keyframes float{
-      0%,100%{transform:translateY(0);opacity:.55;}
-      50%{transform:translateY(8px);opacity:1;}
+    .scroll-indicator button{
+      appearance:none;
+      border:1px solid rgba(255,255,255,.2);
+      background:rgba(255,255,255,.08);
+      border-radius:999px;
+      width:48px;
+      height:48px;
+      display:grid;
+      place-items:center;
+      color:inherit;
+      cursor:pointer;
+      transition:transform .3s ease, border-color .3s ease, background .3s ease;
+      animation:bounce 2.4s ease-in-out infinite;
     }
-    main.container{
-      width:min(1100px,100%);
-      margin:0 auto clamp(60px,8vw,120px);
+    .scroll-indicator button:hover,
+    .scroll-indicator button:focus-visible{
+      outline:none;
+      background:rgba(255,255,255,.16);
+      border-color:rgba(255,255,255,.35);
+      transform:translateY(-2px);
+    }
+    .scroll-indicator svg{width:20px;height:20px;}
+    @keyframes bounce{
+      0%,100%{transform:translateY(0);}
+      50%{transform:translateY(6px);}
+    }
+    .surface{
       background:var(--glass);
       border:1px solid rgba(255,255,255,.08);
       border-radius:32px;
@@ -222,7 +273,7 @@
       overflow:hidden;
       isolation:isolate;
     }
-    main.container::before{
+    .surface::before{
       content:"";
       position:absolute;
       inset:0;
@@ -231,12 +282,16 @@
       opacity:.7;
       z-index:-1;
     }
-    header{
+    .intro .panel-content{
+      display:flex;
+      flex-direction:column;
+      gap:clamp(18px,4vw,26px);
+    }
+    .hub-header{
       display:flex;
       align-items:center;
       justify-content:space-between;
       gap:clamp(12px,3vw,32px);
-      margin-bottom:clamp(18px,4vw,28px);
       flex-wrap:wrap;
     }
     .brand{display:flex;align-items:center;gap:16px;flex:1 1 auto;min-width:220px;}
@@ -275,19 +330,25 @@
     }
     h1{margin:0;font-size:clamp(20px,3vw,28px);font-weight:700;letter-spacing:.3px;}
     .desc{color:var(--muted);font-size:clamp(13px,2vw,15px);margin:6px 0 0;max-width:520px;}
-    nav{display:flex;align-items:center;gap:16px;flex-wrap:wrap;}
-    nav .muted-link{
+    .hub-links{display:flex;align-items:center;gap:16px;flex-wrap:wrap;}
+    .hub-links .muted-link{
       padding:8px 12px;
       border-radius:12px;
       border:1px solid transparent;
       transition:border-color .3s ease,background .3s ease,transform .3s ease;
     }
-    nav .muted-link:focus,
-    nav .muted-link:hover{
+    .hub-links .muted-link:focus,
+    .hub-links .muted-link:hover{
       border-color:rgba(255,255,255,.18);
       background:rgba(255,255,255,.06);
       transform:translateY(-1px);
     }
+    .intro .surface{display:flex;flex-direction:column;gap:clamp(18px,3vw,26px);}
+    .section-head{display:flex;flex-direction:column;gap:12px;margin-bottom:clamp(18px,3vw,26px);}
+    .section-title{margin:0;font-size:clamp(24px,3.6vw,32px);font-weight:700;letter-spacing:.2px;}
+    .section-desc{margin:0;color:var(--muted);max-width:60ch;}
+    .projects .surface{display:flex;flex-direction:column;gap:clamp(18px,4vw,32px);}
+    .outro .surface{display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;gap:clamp(16px,3vw,24px);}
     .grid{
       display:grid;
       grid-template-columns:repeat(1,minmax(0,1fr));
@@ -305,11 +366,15 @@
       border:1px solid rgba(255,255,255,.08);
       box-shadow:0 12px 30px rgba(5,10,25,.25);
       transition:transform .4s cubic-bezier(.2,.7,.3,1), box-shadow .4s ease, border-color .3s ease;
+    }
+    body.io-ready .card{
       opacity:0;
       transform:translateY(16px) scale(.98);
       animation:card-in .65s ease forwards;
       animation-delay:calc(var(--index,0) * 90ms + 80ms);
+      animation-play-state:paused;
     }
+    body.io-ready .panel.in-view .card{animation-play-state:running;}
     .card::before{
       content:"";
       position:absolute;
@@ -366,13 +431,13 @@
     }
     @media (max-width:900px){
       .hero{padding:clamp(80px,14vw,140px) clamp(18px,8vw,48px);}
-      main.container{margin:0 auto clamp(48px,10vw,100px);}
+      .panel{padding:clamp(72px,16vw,120px) clamp(18px,8vw,48px);}
     }
     @media (max-width:768px){
-      main.container{padding:clamp(20px,6vw,28px);}
-      header{flex-direction:column;align-items:flex-start;}
-      nav{width:100%;justify-content:flex-start;}
-      .scroll-indicator{bottom:28px;}
+      .surface{padding:clamp(20px,6vw,28px);}
+      .hub-header{flex-direction:column;align-items:flex-start;}
+      .hub-links{width:100%;justify-content:flex-start;}
+      .scroll-indicator{right:auto;left:50%;bottom:28px;transform:translateX(-50%);}
     }
     @media (max-width:520px){
       .hero-title{font-size:clamp(32px,12vw,44px);}
@@ -382,101 +447,206 @@
       .card{border-radius:20px;}
     }
     @media (prefers-reduced-motion: reduce){
-      body::before,body::after,.hero::before,.logo,.logo::after,.card,.scroll-indicator svg{
+      html:focus-within{scroll-behavior:auto;}
+      body,main.snap-container{scroll-behavior:auto;}
+      body::before,body::after,.hero::before,.logo,.logo::after,.scroll-indicator button{
         animation-duration:0.01ms !important;
         animation-iteration-count:1 !important;
       }
-      .card{opacity:1;transform:none;}
+      body.io-ready .panel:not(.hero){opacity:1;transform:none;transition:none;}
+      body.io-ready .card{opacity:1;transform:none;animation:none;}
     }
   </style>
 </head>
 <body>
-  <section class="hero">
-    <div class="hero-content">
-      <span class="hero-badge">LZRAY · DIGITAL HUB</span>
-      <h1 class="hero-title">让灵感在分站之间自由流动</h1>
-      <p class="hero-desc">一站式集结 LZRAY 旗下的实验项目与独立工具。流畅、轻盈、深浅色自适应，探索更多好玩的创意灵感。</p>
-      <div class="hero-actions">
-        <a class="hero-button" href="#hub">立即探索 →</a>
-        <a class="hero-secondary" href="https://www.lzray.com/" rel="noopener">访问官网</a>
-      </div>
-    </div>
-    <div class="scroll-indicator">
-      <span>下滑探索</span>
-      <svg width="18" height="28" viewBox="0 0 18 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-        <rect x="0.75" y="0.75" width="16.5" height="26.5" rx="8.25" stroke="currentColor" stroke-width="1.5" opacity=".55" />
-        <circle cx="9" cy="8" r="3" fill="currentColor" />
-      </svg>
-    </div>
-  </section>
-
-  <main id="hub" class="container">
-    <header>
-      <div class="brand">
-        <div class="logo">LZ</div>
-        <div>
-          <h1>LZRAY 主站 · Hub</h1>
-          <p class="desc">集中入口 · 轻量快速 · 支持深浅色 · 最后更新：<span id="ts"></span></p>
+  <main class="snap-container">
+    <section class="panel hero" data-panel>
+      <div class="hero-content">
+        <span class="hero-badge">LZRAY · DIGITAL HUB</span>
+        <h1 class="hero-title">让灵感在分站之间自由流动</h1>
+        <p class="hero-desc">一站式集结 LZRAY 旗下的实验项目与独立工具。流畅、轻盈、深浅色自适应，探索更多好玩的创意灵感。</p>
+        <div class="hero-actions">
+          <a class="hero-button" href="#hub">立即探索 →</a>
+          <a class="hero-secondary" href="https://www.lzray.com/" rel="noopener">访问官网</a>
         </div>
       </div>
-      <nav>
-        <a class="muted-link" href="https://www.lzray.com/">lzray.com</a>
-      </nav>
-    </header>
-
-    <section class="grid">
-      <article class="card" style="--index:0;">
-        <span class="tag">🧠 AI / 工具</span>
-        <h2 class="title">Translate100</h2>
-        <p class="text">鬼畜英文：谷歌翻译100次。</p>
-        <a class="go" href="https://translate100.lzray.com" rel="noopener">进入 translate100.lzray.com →</a>
-      </article>
-
-      <article class="card" style="--index:1;">
-        <span class="tag">🤖 对话</span>
-        <h2 class="title">Chat AI</h2>
-        <p class="text">OpenRouter / Chat 接入的演示与实验。</p>
-        <a class="go" href="https://chatai.lzray.com" rel="noopener">进入 chatai.lzray.com →</a>
-      </article>
-
-      <article class="card" style="--index:2;">
-        <span class="tag">🔤 文字游戏</span>
-        <h2 class="title">WordMorph</h2>
-        <p class="text">英文词阶变形小游戏。</p>
-        <a class="go" href="https://wordmorph.lzray.com" rel="noopener">进入 wordmorph.lzray.com →</a>
-      </article>
-
-      <article class="card" style="--index:3;">
-        <span class="tag">🎯 数独类</span>
-        <h2 class="title">Bulls & Cows</h2>
-        <p class="text">猜数字最优解决工具。</p>
-        <a class="go" href="https://bullsc.lzray.com" rel="noopener">进入 bullsc.lzray.com →</a>
-      </article>
-
-      <article class="card" style="--index:4;">
-        <span class="tag">🃏 算法游戏</span>
-        <h2 class="title">Online 24</h2>
-        <p class="text">在线 24 点对战/难度分级实验。</p>
-        <a class="go" href="https://online24.lzray.com" rel="noopener">进入 online24.lzray.com →</a>
-      </article>
-
-      <article class="card" style="--index:5;">
-        <span class="tag">📬 其他</span>
-        <h2 class="title">更多</h2>
-        <p class="text">将来这里还可以挂友链、项目文档、RSS等。</p>
-        <a class="go" href="#" onclick="alert('敬请期待');return false;">规划中…</a>
-      </article>
+      <div class="scroll-indicator">
+        <button type="button" aria-label="滚动到下一屏" data-scroll-next>
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M5 9l7 7 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </button>
+        <span aria-hidden="true">下滑探索</span>
+      </div>
     </section>
 
-    <footer>
-      <div>© <span id="y"></span> LZRAY · <a class="muted-link" href="https://github.com/">GitHub</a> · <a class="muted-link" href="https://vercel.com/">Vercel</a></div>
-    </footer>
+    <section id="hub" class="panel intro" data-panel>
+      <div class="panel-content">
+        <div class="surface">
+          <div class="hub-header">
+            <div class="brand">
+              <div class="logo">LZ</div>
+              <div>
+                <h2 class="section-title">LZRAY 主站 · Hub</h2>
+                <p class="desc">集中入口 · 轻量快速 · 支持深浅色 · 最后更新：<span id="ts"></span></p>
+              </div>
+            </div>
+            <nav class="hub-links" aria-label="站点链接">
+              <a class="muted-link" href="https://www.lzray.com/">lzray.com</a>
+            </nav>
+          </div>
+          <p class="section-desc">我们将实验性的产品、创意工具以及独立项目统一收纳在此，保持一致的体验与更新节奏，方便你在不同灵感之间无缝切换。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel projects" id="projects" data-panel>
+      <div class="panel-content">
+        <div class="surface">
+          <div class="section-head">
+            <h2 class="section-title">实验分站一览</h2>
+            <p class="section-desc">涵盖 AI 体验、语言游戏到算法挑战的多元作品，持续迭代、即时可用。</p>
+          </div>
+          <div class="grid">
+            <article class="card" style="--index:0;">
+              <span class="tag">🧠 AI / 工具</span>
+              <h3 class="title">Translate100</h3>
+              <p class="text">鬼畜英文：谷歌翻译100次。</p>
+              <a class="go" href="https://translate100.lzray.com" rel="noopener">进入 translate100.lzray.com →</a>
+            </article>
+
+            <article class="card" style="--index:1;">
+              <span class="tag">🤖 对话</span>
+              <h3 class="title">Chat AI</h3>
+              <p class="text">OpenRouter / Chat 接入的演示与实验。</p>
+              <a class="go" href="https://chatai.lzray.com" rel="noopener">进入 chatai.lzray.com →</a>
+            </article>
+
+            <article class="card" style="--index:2;">
+              <span class="tag">🔤 文字游戏</span>
+              <h3 class="title">WordMorph</h3>
+              <p class="text">英文词阶变形小游戏。</p>
+              <a class="go" href="https://wordmorph.lzray.com" rel="noopener">进入 wordmorph.lzray.com →</a>
+            </article>
+
+            <article class="card" style="--index:3;">
+              <span class="tag">🎯 数独类</span>
+              <h3 class="title">Bulls & Cows</h3>
+              <p class="text">猜数字最优解决工具。</p>
+              <a class="go" href="https://bullsc.lzray.com" rel="noopener">进入 bullsc.lzray.com →</a>
+            </article>
+
+            <article class="card" style="--index:4;">
+              <span class="tag">🃏 算法游戏</span>
+              <h3 class="title">Online 24</h3>
+              <p class="text">在线 24 点对战/难度分级实验。</p>
+              <a class="go" href="https://online24.lzray.com" rel="noopener">进入 online24.lzray.com →</a>
+            </article>
+
+            <article class="card" style="--index:5;">
+              <span class="tag">📬 其他</span>
+              <h3 class="title">更多</h3>
+              <p class="text">将来这里还可以挂友链、项目文档、RSS等。</p>
+              <a class="go" href="#" onclick="alert('敬请期待');return false;">规划中…</a>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel outro" data-panel>
+      <div class="panel-content">
+        <div class="surface">
+          <h2 class="section-title">保持同步</h2>
+          <p class="section-desc">新灵感上线、老项目升级都会第一时间在 Hub 中呈现。收藏页面或订阅 RSS，随时获取最新动态。</p>
+          <footer>
+            <div>© <span id="y"></span> LZRAY · <a class="muted-link" href="https://github.com/">GitHub</a> · <a class="muted-link" href="https://vercel.com/">Vercel</a></div>
+          </footer>
+        </div>
+      </div>
+    </section>
   </main>
 
   <script>
     const d=new Date();
     document.getElementById('ts').textContent = d.toLocaleDateString('zh-CN', {year:'numeric',month:'2-digit',day:'2-digit'});
     document.getElementById('y').textContent = d.getFullYear();
+
+    const panels = Array.from(document.querySelectorAll('[data-panel]'));
+    const nextButton = document.querySelector('[data-scroll-next]');
+    const reduceMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+    document.body.classList.add('io-ready');
+    if(panels[0]){
+      panels[0].classList.add('in-view');
+    }
+
+    if(nextButton && panels.length > 1){
+      nextButton.addEventListener('click', () => {
+        const target = panels[1];
+        if(target){
+          target.scrollIntoView({behavior: reduceMotionQuery.matches ? 'auto' : 'smooth', block: 'start'});
+        }
+      });
+    }
+
+    let observer;
+    const stopObserver = () => {
+      if(observer){
+        observer.disconnect();
+        observer = undefined;
+      }
+    };
+
+    const activateObserver = () => {
+      stopObserver();
+      if(reduceMotionQuery.matches){
+        return;
+      }
+      observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if(entry.isIntersecting){
+            entry.target.classList.add('in-view');
+          }
+        });
+      }, {threshold:0.35});
+      panels.forEach(panel => observer.observe(panel));
+    };
+
+    const revealAllPanels = () => {
+      stopObserver();
+      panels.forEach(panel => panel.classList.add('in-view'));
+    };
+
+    const enableMotionAnimations = () => {
+      panels.forEach(panel => {
+        if(!panel.classList.contains('hero')){
+          panel.classList.remove('in-view');
+        }
+      });
+      activateObserver();
+    };
+
+    if(reduceMotionQuery.matches){
+      revealAllPanels();
+    }else{
+      enableMotionAnimations();
+    }
+
+    const onMotionPreferenceChange = (event) => {
+      if(event.matches){
+        revealAllPanels();
+      }else{
+        document.body.classList.add('io-ready');
+        enableMotionAnimations();
+      }
+    };
+
+    if(typeof reduceMotionQuery.addEventListener === 'function'){
+      reduceMotionQuery.addEventListener('change', onMotionPreferenceChange);
+    }else if(typeof reduceMotionQuery.addListener === 'function'){
+      reduceMotionQuery.addListener(onMotionPreferenceChange);
+    }
   </script>
 </body>
 </html>
