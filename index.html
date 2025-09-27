@@ -584,12 +584,12 @@
 
   <script>
     const d=new Date();
-    document.getElementById('ts').textContent = d.toLocaleDateString('zh-CN', {year:'numeric',month:'2-digit',day:'2-digit'});
-    document.getElementById('y').textContent = d.getFullYear();
+    document.getElementById('ts').textContent=d.toLocaleDateString('zh-CN', {year:'numeric',month:'2-digit',day:'2-digit'});
+    document.getElementById('y').textContent=d.getFullYear();
 
-    const panels = Array.from(document.querySelectorAll('[data-panel]'));
-    const nextButton = document.querySelector('[data-scroll-next]');
-    const reduceMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const panels=Array.from(document.querySelectorAll('[data-panel]'));
+    const nextButton=document.querySelector('[data-scroll-next]');
+    const reduceMotionQuery=window.matchMedia('(prefers-reduced-motion: reduce)');
 
     document.body.classList.add('io-ready');
     if(panels[0]){
@@ -598,7 +598,7 @@
 
     if(nextButton&&panels.length>1){
       nextButton.addEventListener('click',() =>{
-        const target = panels[1];
+        const target=panels[1];
         if(target){
           target.scrollIntoView({behavior: reduceMotionQuery.matches?'auto':'smooth',block:'start'});
         }
@@ -609,7 +609,7 @@
     const stopObserver=()=>{
       if(observer){
         observer.disconnect();
-        observer = undefined;
+        observer=undefined;
       }
     };
 
