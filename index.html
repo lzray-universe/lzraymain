@@ -596,44 +596,44 @@
       panels[0].classList.add('in-view');
     }
 
-    if(nextButton && panels.length > 1){
-      nextButton.addEventListener('click', () => {
+    if(nextButton&&panels.length>1){
+      nextButton.addEventListener('click',() =>{
         const target = panels[1];
         if(target){
-          target.scrollIntoView({behavior: reduceMotionQuery.matches ? 'auto' : 'smooth', block: 'start'});
+          target.scrollIntoView({behavior: reduceMotionQuery.matches?'auto':'smooth',block:'start'});
         }
       });
     }
 
     let observer;
-    const stopObserver = () => {
+    const stopObserver=()=>{
       if(observer){
         observer.disconnect();
         observer = undefined;
       }
     };
 
-    const activateObserver = () => {
+    const activateObserver=()=>{
       stopObserver();
       if(reduceMotionQuery.matches){
         return;
       }
-      observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
+      observer=new IntersectionObserver((entries)=>{
+        entries.forEach(entry=>{
           if(entry.isIntersecting){
             entry.target.classList.add('in-view');
           }
         });
       }, {threshold:0.35});
-      panels.forEach(panel => observer.observe(panel));
+      panels.forEach(panel=>observer.observe(panel));
     };
 
-    const revealAllPanels = () => {
+    const revealAllPanels=()=>{
       stopObserver();
-      panels.forEach(panel => panel.classList.add('in-view'));
+      panels.forEach(panel=>panel.classList.add('in-view'));
     };
 
-    const enableMotionAnimations = () => {
+    const enableMotionAnimations=()=>{
       panels.forEach(panel => {
         if(!panel.classList.contains('hero')){
           panel.classList.remove('in-view');
@@ -648,7 +648,7 @@
       enableMotionAnimations();
     }
 
-    const onMotionPreferenceChange = (event) => {
+    const onMotionPreferenceChange=(event)=>{
       if(event.matches){
         revealAllPanels();
       }else{
@@ -657,9 +657,9 @@
       }
     };
 
-    if(typeof reduceMotionQuery.addEventListener === 'function'){
+    if(typeof reduceMotionQuery.addEventListener==='function'){
       reduceMotionQuery.addEventListener('change', onMotionPreferenceChange);
-    }else if(typeof reduceMotionQuery.addListener === 'function'){
+    }else if(typeof reduceMotionQuery.addListener==='function'){
       reduceMotionQuery.addListener(onMotionPreferenceChange);
     }
   </script>
